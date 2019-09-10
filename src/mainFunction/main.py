@@ -41,22 +41,21 @@ def get_usage():
             mem_usage = p.memory_info().rss
             cpu_usage = p.cpu_percent()
             pid = int(x)
-            usage[pid] = {"mem":mem_usage/1024, "cpu": cpu_usage}
-            if not username in configuration:
-                configuration[username] = configuration['*']
-            if x in searched_node or int(configuration[username]) < 0 :
-                continue
-            if not username in tree_info:
-                tree_info[username] = {}
-                tree_info[username]["process_tree"] = []
-                tree_info[username]["memory_max"] = configuration[username]
             prc_tree = get_tree(pid, username)
-            searched_node.extend(prc_tree)
-            tree_info[username]["process_tree"].append(prc_tree)
         except:
-            if int(x) in usage:
-                usage.pop(int(x))
             continue
+        usage[pid] = {"mem":mem_usage/1024, "cpu": cpu_usage}
+        if not username in configuration:
+            configuration[username] = configuration['*']
+        if x in searched_node or int(configuration[username]) < 0 :
+            continue
+        if not username in tree_info:
+            tree_info[username] = {}
+            tree_info[username]["process_tree"] = []
+            tree_info[username]["memory_max"] = configuration[username]
+            
+        searched_node.extend(prc_tree)
+        tree_info[username]["process_tree"].append(prc_tree)
     info["tree_info"] = tree_info
     info["usage"] = usage
     date = time.strftime("%Y-%m-%d.json_archieve", time.localtime())
