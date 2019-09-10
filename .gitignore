@@ -1,6 +1,6 @@
 src/c
 *.conf
 current.json
-archieves/*
 __pycache__
 .vscode
+src/archieves/*.json_archieve
